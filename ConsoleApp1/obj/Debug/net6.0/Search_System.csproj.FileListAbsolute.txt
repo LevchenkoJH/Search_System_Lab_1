@@ -1,0 +1,15 @@
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.csproj.AssemblyReference.cache
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.AssemblyInfoInputs.cache
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.AssemblyInfo.cs
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.csproj.CoreCompileInputs.cache
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\bin\Debug\net6.0\Search_System.exe
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\bin\Debug\net6.0\Search_System.deps.json
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\bin\Debug\net6.0\Search_System.runtimeconfig.json
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\bin\Debug\net6.0\Search_System.dll
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\bin\Debug\net6.0\Search_System.pdb
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.dll
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\refint\Search_System.dll
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.pdb
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\Search_System.genruntimeconfig.cache
+C:\Users\Nikita\Desktop\andrey\Search_System_Lab_1\ConsoleApp1\obj\Debug\net6.0\ref\Search_System.dll

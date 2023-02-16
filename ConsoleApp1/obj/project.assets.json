@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\mrgre\\.nuget\\packages\\": {}
+    "C:\\Users\\Nikita\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DR\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
-      "projectName": "ConsoleApp1",
-      "projectPath": "D:\\DR\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
-      "packagesPath": "C:\\Users\\mrgre\\.nuget\\packages\\",
-      "outputPath": "D:\\DR\\ConsoleApp1\\ConsoleApp1\\obj\\",
+      "projectUniqueName": "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj",
+      "projectName": "Search_System",
+      "projectPath": "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj",
+      "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\mrgre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }
