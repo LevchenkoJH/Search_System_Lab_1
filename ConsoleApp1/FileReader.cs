@@ -48,24 +48,26 @@ namespace SearchSystem
         {
             try
             {
-                return stream.ReadLine();
+                if (stream != null)
+                    return stream.ReadLine();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Ошибка при чтении файла: " + e.Message);
-                return null;
             }
             finally
             {
                 Console.WriteLine("Считывание строки");
             }
+            return null;
         }
 
         public void FileClose()
         {
             try
             {
-                stream.Close();
+                if (stream != null)
+                    stream.Close();
             }
             catch (Exception e)
             {
