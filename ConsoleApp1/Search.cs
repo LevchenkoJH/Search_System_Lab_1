@@ -11,7 +11,7 @@ namespace SearchSystem
         /// <summary>
         /// 
         /// </summary>
-        string Name;
+        public string Name;
         /// <summary>
         /// 
         /// </summary>

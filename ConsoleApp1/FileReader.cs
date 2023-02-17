@@ -80,7 +80,7 @@ namespace SearchSystem
             }
             finally
             {
-                Console.WriteLine("Закрытие файла");
+                Console.WriteLine("Закрытие файла " + FilePath);
             }
         }
     }

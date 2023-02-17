@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj": {}
+    "D:\\DR\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj": {
+    "D:\\DR\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj",
+        "projectUniqueName": "D:\\DR\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj",
         "projectName": "Search_System",
-        "projectPath": "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj",
-        "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\obj\\",
+        "projectPath": "D:\\DR\\Search_System_Lab_1\\ConsoleApp1\\Search_System.csproj",
+        "packagesPath": "C:\\Users\\mrgre\\.nuget\\packages\\",
+        "outputPath": "D:\\DR\\Search_System_Lab_1\\ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mrgre\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
