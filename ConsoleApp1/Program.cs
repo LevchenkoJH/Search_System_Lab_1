@@ -26,5 +26,12 @@ Console.WriteLine("Hello, World!");
 
 
 
-SearchSystemL1 A = new SearchSystemL1(filesDirectory: "input");
+//SearchSystemL1 A = new SearchSystemL1(filesDirectory: "input");
 
+List<string> list = new List<string>() { "a", "b" };
+
+//var a = list.Where(i => i == "d").Select((item, index) => index).FirstOrDefault();
+var a = list.FindIndex(x => x.Equals("D"));
+Console.WriteLine(a);
+//list[a] = "b";
+Console.WriteLine(list[0] + " " + list[1]);

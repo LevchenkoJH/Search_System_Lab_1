@@ -9,32 +9,32 @@ namespace SearchSystem
     internal class Term
     {
         /// <summary>
-        /// 
+        /// Название термина
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
         /// <summary>
-        /// 
+        /// Сколько раз встречался во всех документах
         /// </summary>
-        int Frequency;
+        public int Frequency { get; set; }
         /// <summary>
-        /// 
+        /// Документы в которых встречался
         /// </summary>
-        List<Document> Documents;
+        public List<Document> Documents { get; set; }
     }
 
     internal class Document
     {
         /// <summary>
-        /// 
+        /// Идентификатор документа
         /// </summary>
-        int Id;
+        public int Id { get; set; }
         /// <summary>
-        /// 
+        /// Частота 
         /// </summary>
-        int Frequency;
+        //public int Frequency { get; set; }
         /// <summary>
-        /// 
+        /// Позиции слова в документе (key - строка, value - символ)
         /// </summary>
-        List<int> Positions;
+        public List<KeyValuePair<int, int>> Positions { get; set; }
     }
 }
