@@ -40,16 +40,21 @@ namespace SearchSystem
             }
             finally
             {
-                Console.WriteLine("Открытие файла");
+                Console.WriteLine("Открытие файла " + filePath);
             }
         }
 
         public string ReadLine()
         {
+            string line = "";
             try
             {
                 if (stream != null)
-                    return stream.ReadLine();
+                {
+                    line = stream.ReadLine();
+                    return line;
+                }
+                    
             }
             catch (Exception e)
             {
@@ -57,7 +62,7 @@ namespace SearchSystem
             }
             finally
             {
-                Console.WriteLine("Считывание строки");
+                Console.WriteLine($"--------------------------- Считывание строки --------------------------- \n::::->{line}<-:::");
             }
             return null;
         }

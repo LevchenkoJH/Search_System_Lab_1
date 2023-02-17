@@ -3,17 +3,28 @@ using SearchSystem;
 
 Console.WriteLine("Hello, World!");
 
-FileReader TEST_FILE = new FileReader("C:\\Users\\Nikita\\Desktop\\andrey\\Search_System_Lab_1\\ConsoleApp1\\TERMS.txt");
+//FileReader TEST_FILE = new FileReader(".\\TERMS.txt");
 
-string TEST_STRING = TEST_FILE.ReadLine();
-Console.WriteLine(TEST_STRING);
+//string TEST_STRING = TEST_FILE.ReadLine();
+//Console.WriteLine(TEST_STRING);
 
-TEST_STRING = TEST_FILE.ReadLine();
-Console.WriteLine(TEST_STRING);
+//TEST_STRING = TEST_FILE.ReadLine();
+//Console.WriteLine(TEST_STRING);
 
-TEST_STRING = TEST_FILE.ReadLine();
-Console.WriteLine(TEST_STRING);
+//TEST_STRING = TEST_FILE.ReadLine();
+//Console.WriteLine(TEST_STRING);
 
-TEST_FILE.FileClose();
+//TEST_FILE.FileClose();
 
-Console.ReadLine();
+//Console.ReadLine();
+
+//Documents A = new Documents();
+
+
+
+//Console.WriteLine(Path.Join(Directory.GetCurrentDirectory(), "input"));
+
+
+
+SearchSystemL1 A = new SearchSystemL1(filesDirectory: "input");
+

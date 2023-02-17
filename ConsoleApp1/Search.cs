@@ -19,10 +19,10 @@ namespace SearchSystem
         /// <summary>
         /// 
         /// </summary>
-        List<Documents> Documents;
+        List<Document> Documents;
     }
 
-    internal class Documents
+    internal class Document
     {
         /// <summary>
         /// 
