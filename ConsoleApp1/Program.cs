@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ConsoleApp1;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Metadata;
@@ -6,7 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace search_engine
 {
-    internal struct Document
+    public struct Document
     {
         public int id;
         public int frenq;
@@ -20,7 +21,7 @@ namespace search_engine
         }
     }
 
-    internal struct Term
+    public struct Term
     {
         public string name;
         public int count;
@@ -36,9 +37,12 @@ namespace search_engine
 
     public class Catalog
     {
-        private List<Term> terms = new List<Term>();
-        private Term blancTerm = new Term();
-        private Document blancDoc = new Document();
+        public List<Term> terms = new List<Term>();
+        public Term blancTerm = new Term();
+        public Document blancDoc = new Document();
+
+
+        
 
         private bool WordPresence(string word)
         {
@@ -150,13 +154,6 @@ namespace search_engine
         }        
     }
 
-    /*internal enum State
-    {
-        Word,
-        Symbol
-    }*/
-
-
     internal class Program
     {
         
@@ -165,136 +162,16 @@ namespace search_engine
         {
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + "text_documents\\";
             Catalog catalog = new Catalog(path);
-            /*List<Term> terms = new List<Term>();
-            string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + "text_documents\\";
-            //State state = State.Word;
-            Term blancTerm = new Term();
-            Document blancDoc = new Document();
-            //int documentId = 1;
-            string[] files = Directory.GetFiles(path, "*.txt");
-
-            foreach (string file in files)
+            RequestToCatalog rtk = new RequestToCatalog(catalog.terms);
+            foreach(Term term in rtk.terms)
             {
-                int documentId = int.Parse(Path.GetFileName(file)[0].ToString());
-                Console.WriteLine(documentId);
-                using (StreamReader sr = File.OpenText(path + documentId.ToString() + ".txt"))
+                Console.WriteLine(term.name);
+                foreach(Document document in term.doc)
                 {
-
-                    int position = 0; // Позиция в документе
-                    while (sr.Peek() != -1)
-                    {
-                        //Term blancTerm = new Term();
-                        //Document blancDoc = new Document();
-                        char letter = (char)sr.Read();
-                        if (char.IsLetter((char)letter)) // Собираем слово по буквам
-                        {
-                            blancTerm.name += letter.ToString();
-                        }
-                        else // Если символ это не буква
-                        {
-                            if (blancTerm.name != "")
-                            {
-                                bool found = false;
-                                foreach (var term in terms) // Проверка на наличие сущности слова в списке слов
-                                {
-                                    if (blancTerm.name == term.name)
-                                    {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-
-                                if (found == false) // Если слова ещё не было, то добавляем его в список как новое, а также заводим под неё структуру из документов
-                                {
-                                    blancDoc.id = (int)documentId; // id документа это его имя (в данный момент)
-                                    blancDoc.frenq++; // Добавление числа вхождений слова в документ
-                                    blancDoc.pos.Add(position - (blancTerm.name.Length)); // Добавление позиции вхождения слова в текущий документ
-
-                                    blancTerm.doc.Add(blancDoc); // Добавление информации о документе в сущность текущего слова
-                                    blancTerm.count++; // Увеличение числа вхождений слова вообще в какой либо документ
-
-                                    terms.Add(blancTerm);
-
-                                    // Обнуление всех вспомогательных объектов:
-                                    blancDoc = new Document();
-                                    blancTerm = new Term();
-                                }
-                                else // Если слово уже встречалось, то нужно просто найти текущий документ в списке, добавить туда индекс встречи и число раз
-                                {
-                                    int index = terms.FindIndex(i => i.name == blancTerm.name); // Индекс сущности данного слова в списке
-
-                                    Term dummy = terms[index]; // Копия сущности слова
-                                    
-                                    int indexDoc = dummy.doc.FindIndex(i => i.id == (int)documentId); // Индекс текущего документа
-                                    if (indexDoc == -1) // Если слово встречалось ранее, но не в этом документе, то нужно создать документ для этого слова
-                                    {
-                                        blancDoc.id = (int)documentId; // id документа это его имя (в данный момент)
-                                        blancDoc.frenq++; // Добавление числа вхождений слова в документ
-                                        blancDoc.pos.Add(position - (blancTerm.name.Length)); // Добавление позиции вхождения слова в текущий документ
-
-                                        dummy.doc.Add(blancDoc);
-                                        dummy.count++;
-                                    }
-                                    else // Если слово встречалось в текущем документе
-                                    {
-                                        Document dummyDoc = dummy.doc[indexDoc]; // Текущий документ для данного слова
-                                        dummyDoc.pos.Add(position - (blancTerm.name.Length)); // Добавление новой позиции для данного слова в текущем документе
-                                        dummyDoc.frenq++; // Увеличение числа вхождений данного слова в текущий документ
-
-                                        dummy.doc[indexDoc] = dummyDoc; // Изменение List с документом данного слова из-за особенностей языка 
-                                        dummy.count++; // Увеличение числа вхождений слова вообще в какой либо документ
-                                        
-                                    }
-                                    terms[index] = dummy;
-                                    // Обнуление всех вспомогательных структур:
-                                    blancTerm = new Term();
-                                    blancDoc = new Document();
-                                }
-                            }
-
-                        }
-                        position++;
-
-                    }
+                    Console.WriteLine(document.id);
                 }
-            }
-            foreach(Term term in terms)
-            {
-                Console.WriteLine(term.name.ToString() + " " + term.doc[0].pos[0].ToString() + "\n");
-            }*/
-            //Console.WriteLine(path);
-
-            /*switch (state)
-                    {
-                        case State.Word:
-                        {
-                            if (char.IsLetter((char)sr.Peek()))
-                            {
-                                blanc.name += sr.Peek().ToString();
-                                break;
-                            }
-                            else
-                            {
-                                state = State.Symbol;
-                                terms.Add(blanc);
-                                blanc = new Term();
-                                break;
-                            }
-                        }
-                            
-
-                        case State.Symbol:
-                            if (char.IsLetter((char)sr.Peek()))
-                            {
-                                state
-                                break;
-                            }
-                            else
-                            {
-                                state = State.Word;
-                                break;
-                            }
-                    }*/
+                Console.WriteLine("\n");
+            }            
         }
     }
 }
