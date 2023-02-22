@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using SearchSystem;
 
-Console.WriteLine("Hello, World!");
+// Console.WriteLine("Hello, World!");
 
 //FileReader TEST_FILE = new FileReader(".\\TERMS.txt");
 
@@ -26,12 +26,20 @@ Console.WriteLine("Hello, World!");
 
 
 
-//SearchSystemL1 A = new SearchSystemL1(filesDirectory: "input");
+SearchSystemL1 A = new SearchSystemL1(filesDirectory: "input");
 
-List<string> list = new List<string>() { "a", "b" };
+A.Search();
+
+/*while (true)
+{
+    string test_str = Console.ReadLine();
+    Console.WriteLine(test_str);
+}*/
+
+//List<string> list = new List<string>() { "a", "b" };
 
 //var a = list.Where(i => i == "d").Select((item, index) => index).FirstOrDefault();
-var a = list.FindIndex(x => x.Equals("D"));
-Console.WriteLine(a);
+//var a = list.FindIndex(x => x.Equals("D"));
+//Console.WriteLine(a);
 //list[a] = "b";
-Console.WriteLine(list[0] + " " + list[1]);
+//Console.WriteLine(list[0] + " " + list[1]);
