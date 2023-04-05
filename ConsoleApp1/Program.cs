@@ -25,13 +25,14 @@ namespace search_engine
     {
         public string name;
         public int count;
-        public List<Document> doc;
-
+        public List<Document> docs;
+        public List<int> vectorIdDocuments;
         public Term()
         {
             this.name = "";
             this.count = 0;
-            this.doc = new List<Document>();
+            this.docs = new List<Document>();
+            this.vectorIdDocuments = new List<int>();
         }
     }
 
@@ -41,8 +42,6 @@ namespace search_engine
         public Term blancTerm = new Term();
         public Document blancDoc = new Document();
 
-
-        
 
         private bool WordPresence(string word)
         {
@@ -79,8 +78,9 @@ namespace search_engine
 
             this.AddNewDoc(documentId, position); //Создание нового документа
 
-            this.blancTerm.doc.Add(this.blancDoc); // Добавление информации о документе в сущность текущего слова
+            this.blancTerm.docs.Add(this.blancDoc); // Добавление информации о документе в сущность текущего слова
             this.blancTerm.count++; // Увеличение числа вхождений слова вообще в какой либо документ
+            this.blancTerm.vectorIdDocuments.Add(this.blancDoc.id);
 
             this.terms.Add(this.blancTerm);
 
@@ -117,20 +117,21 @@ namespace search_engine
                             {
                                 int index = this.terms.FindIndex(i => i.name == this.blancTerm.name); // Индекс сущности данного слова в списке
                                 Term dummy = this.terms[index]; // Копия сущности слова
-                                int indexDoc = dummy.doc.FindIndex(i => i.id == (int)documentId); // Индекс текущего документа
+                                int indexDoc = dummy.docs.FindIndex(i => i.id == (int)documentId); // Индекс текущего документа
 
                                 if (indexDoc == -1) // Если слово встречалось, но не в текущем документе
                                 {
                                     this.AddNewDoc(documentId, position); // Создание нового документа
-                                    dummy.doc.Add(this.blancDoc);
+                                    dummy.docs.Add(this.blancDoc);
+                                    dummy.vectorIdDocuments.Add(documentId);
                                 }
                                 else // Если слово встречалось в текущем документе
                                 {
-                                    Document dummyDoc = dummy.doc[indexDoc]; // Текущий документ для данного слова
+                                    Document dummyDoc = dummy.docs[indexDoc]; // Текущий документ для данного слова
                                     dummyDoc.pos.Add(position - (blancTerm.name.Length)); // Добавление новой позиции для данного слова в текущем документе
                                     dummyDoc.frenq++; // Увеличение числа вхождений данного слова в текущий документ
 
-                                    dummy.doc[indexDoc] = dummyDoc; // Изменение List с документом данного слова из-за особенностей языка 
+                                    dummy.docs[indexDoc] = dummyDoc; // Изменение List с документом данного слова из-за особенностей языка 
                                 }
                                 dummy.count++; // Увеличение числа вхождений слова вообще в какой либо документ
                                 terms[index] = dummy;
@@ -156,22 +157,21 @@ namespace search_engine
 
     internal class Program
     {
-        
-
         static void Main(string[] args)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + "text_documents\\";
             Catalog catalog = new Catalog(path);
             RequestToCatalog rtk = new RequestToCatalog(catalog.terms);
-            foreach(Term term in rtk.terms)
+            /*foreach(Term term in rtk.terms)
             {
                 Console.WriteLine(term.name);
-                foreach(Document document in term.doc)
+                foreach(Document document in term.docs)
                 {
                     Console.WriteLine(document.id);
                 }
                 Console.WriteLine("\n");
-            }            
+            }*/
+            rtk.Request("как and дела or not вас");
         }
     }
 }
