@@ -27,15 +27,15 @@ namespace SearchSystem
         /// <summary>
         /// Файл (документ) на который ссылаемся
         /// </summary>
-        public int DocumentId { get; set; }
+        public int FileId { get; set; }
         /// <summary>
         /// Сколько раз данный термин встречается в этом документе
         /// </summary>
         public int Frequency { get; set; }
         /// <summary>
-        /// Позиции слова в документе (key - строка, value - символ)
+        /// Позиции слова в документе
         /// </summary>
-        public List<KeyValuePair<int, int>> Positions { get; set; }
+        public List<int> Positions { get; set; }
     }
 
     internal class File
