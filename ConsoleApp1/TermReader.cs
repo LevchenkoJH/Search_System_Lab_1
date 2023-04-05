@@ -253,5 +253,10 @@ namespace SearchSystem
         {
             return terms.Where(i => i.Documents.Where(j => j.FileId == fileId).Count() != 0).Count();
         }
+
+        public static List<Term> GetTerms()
+        {
+            return terms;
+        }
     }
 }

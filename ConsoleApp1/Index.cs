@@ -11,10 +11,13 @@ namespace SearchSystem
 
         private List<File> Files = new List<File>();
 
+        private RequestProcessing requestProcessing = new RequestProcessing();
+
         public Index(string folderPath) 
         {
             GetFiles(folderPath);
             GetTerms();
+            WaitingRequest();
         }
 
         /// <summary>
@@ -83,6 +86,17 @@ namespace SearchSystem
             {
                 Console.WriteLine($"{file.Id} ** Frequency: {file.Frequency}");
                 Console.WriteLine();
+            }
+        }
+
+        private void WaitingRequest()
+        {
+            Console.Write(">");
+            string request = Console.ReadLine();
+            if (request != null)
+            {
+                if (!requestProcessing.Request(request))
+                    WaitingRequest();
             }
         }
     }

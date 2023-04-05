@@ -2,11 +2,9 @@
 
 var TEST = new SearchSystem.Index("input");
 
-TermReader.PrintTermStatistics();
+//TermReader.PrintTermStatistics();
 
-TEST.PrintFileStatistics();
-
-Console.ReadLine();
+//TEST.PrintFileStatistics();
 
 
 
