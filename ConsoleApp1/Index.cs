@@ -37,7 +37,7 @@ namespace SearchSystem
                 {
                     var file = new File
                     {
-                        Id = i,
+                        Id = Guid.NewGuid(),
                         Name = fileNames[i],
                         Frequency = 0
                     };
@@ -54,13 +54,16 @@ namespace SearchSystem
         {
             try
             {
-                foreach (File file in Files)
+                for (int i = 0; i < Files.Count(); i++)
                 {
                     // Открываем файл
-                    var fileReader = new FileReader(file.Name);
+                    var fileReader = new FileReader(Files[i].Name);
 
                     // Собираем термины
-                    TermReader.FindTermsInFile(fileReader, file.Id);
+                    TermReader.FindTermsInFile(fileReader, Files[i].Id);
+
+                    // Статистика файла
+                    Files[i].Frequency = TermReader.GetFileFrequency(Files[i].Id);
 
                     // Закрываем файл
                     fileReader.FileClose();
@@ -69,6 +72,17 @@ namespace SearchSystem
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        public void PrintFileStatistics()
+        {
+            Console.WriteLine("-----------------------PrintFileStatistics()-----------------------");
+            Console.WriteLine(Files.Count);
+            foreach (File file in Files)
+            {
+                Console.WriteLine($"{file.Id} ** Frequency: {file.Frequency}");
+                Console.WriteLine();
             }
         }
     }

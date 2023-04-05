@@ -27,7 +27,7 @@ namespace SearchSystem
         /// <summary>
         /// Файл (документ) на который ссылаемся
         /// </summary>
-        public int FileId { get; set; }
+        public Guid FileId { get; set; }
         /// <summary>
         /// Сколько раз данный термин встречается в этом документе
         /// </summary>
@@ -43,7 +43,7 @@ namespace SearchSystem
         /// <summary>
         /// Документ (файл)
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Название файла (документа)
         /// </summary>

@@ -12,7 +12,7 @@ namespace SearchSystem
         /// <summary>
         /// Id текущего документа
         /// </summary>
-        private static int CurrentFileId = 0;
+        private static Guid CurrentFileId = Guid.Empty;
 
         /// <summary>
         /// Текущая позиция термина
@@ -47,10 +47,15 @@ namespace SearchSystem
         private static string CurrentTerm = "";
 
         /// <summary>
+        /// Собранные термины
+        /// </summary>
+        private static List<Term> terms = new List<Term>();
+
+        /// <summary>
         /// Считывание слов из файла
         /// </summary>
         /// <param name="filePath"></param>
-        public static void FindTermsInFile(FileReader fileReader, int fileId)
+        public static void FindTermsInFile(FileReader fileReader, Guid fileId)
         {
             // Фиксируем Id документа
             CurrentFileId = fileId;
@@ -72,7 +77,7 @@ namespace SearchSystem
                 if (line != null)
                 {
                     line = line.ToLower();
-                    Console.WriteLine("line != null " + "---->" +line);
+                    //Console.WriteLine("line != null " + "---->" +line);
                     GetTerms(line);
                 }
             }
@@ -153,11 +158,100 @@ namespace SearchSystem
             else
             {
                 // Добавлям слово в коллекцию
-                Console.WriteLine("Нашел: " + CurrentTerm + " Поз: " + PositionTerm.ToString());
-                //AddTerm();
+                //Console.WriteLine("Нашел: " + CurrentTerm + " Поз: " + PositionTerm.ToString());
+                AddTerm();
                 CurrentTerm = "";
                 CURRENT_STATE = STATE_WAITING;
             }
+        }
+
+        /// <summary>
+        /// Добавление нового термина в коллекцию + её обслуживание
+        /// </summary>
+        private static void AddTerm()
+        {
+            // Ищем данный термин в коллекции
+            int term_index = terms.FindIndex(i => i.Name == CurrentTerm);
+
+            // Если данный термин уже был найден ранее
+            if (term_index != -1)
+            {
+                // Нужно что-то сделать с его статистикой
+
+                // В очередной раз встретили это слово
+                terms[term_index].Frequency += 1;
+
+                // и со списком документов
+                // Проверяем записан ли текущий документ в списке термина
+                int document_index = terms[term_index].Documents.FindIndex(i => i.FileId == CurrentFileId);
+
+                // Если уже есть
+                if (document_index != -1)
+                {
+                    // Добавляем позицию термина
+                    terms[term_index].Documents[document_index].Positions.Add(PositionTerm);
+
+                    terms[term_index].Documents[document_index].Frequency++;
+                }
+                else
+                {
+                    // Иначе создаем новый
+                    Document _document = new Document()
+                    {
+                        FileId = CurrentFileId,
+                        Positions = new List<int>() { PositionTerm },
+
+                        Frequency = 1
+                    };
+                    terms[term_index].Documents.Add(_document);
+                }
+            }
+            else
+            {
+                // Иначе добаляем новый термин
+                Term _term = new Term()
+                {
+                    Name = CurrentTerm,
+                    Frequency = 1,
+                    // C добавленным документом
+                    Documents = new List<Document>()
+                    {
+                        new Document()
+                        {
+                            FileId = CurrentFileId,
+                            Positions = new List<int>() { PositionTerm },
+
+                            Frequency = 1
+                        }
+                    }
+                };
+
+                terms.Add(_term);
+            }
+        }
+
+        public static void PrintTermStatistics()
+        {
+            Console.WriteLine("-----------------------PrintTermStatistics()-----------------------");
+            Console.WriteLine(terms.Count);
+            foreach (Term term in terms)
+            {
+                Console.WriteLine($"{term.Name} ** Frequency: {term.Frequency}");
+                foreach (Document document in term.Documents)
+                {
+                    Console.WriteLine($"Документ Id: {document.FileId} ** Frequency: {document.Frequency}");
+                    foreach (int position in document.Positions)
+                    {
+                        Console.WriteLine($"Позиция -> {position}");
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public static int GetFileFrequency(Guid fileId)
+        {
+            return terms.Where(i => i.Documents.Where(j => j.FileId == fileId).Count() != 0).Count();
         }
     }
 }

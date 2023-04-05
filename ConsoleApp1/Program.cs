@@ -1,14 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
-using SearchSystem;
-
-
-
-
-
-
-Console.WriteLine("Hello, World!");
+﻿using SearchSystem;
 
 var TEST = new SearchSystem.Index("input");
+
+TermReader.PrintTermStatistics();
+
+TEST.PrintFileStatistics();
 
 Console.ReadLine();
 
