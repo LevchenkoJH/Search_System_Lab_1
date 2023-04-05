@@ -37,10 +37,10 @@ namespace SearchSystem
                 Console.WriteLine("Ошибка при открытии файла: " + e.Message);
                 return null;
             }
-            finally
+            /*finally
             {
                 Console.WriteLine("Открытие файла " + filePath);
-            }
+            }*/
         }
 
         public string ReadLine()
@@ -77,10 +77,10 @@ namespace SearchSystem
             {
                 Console.WriteLine("Ошибка при закрытии файла: " + e.Message);
             }
-            finally
+            /*finally
             {
                 Console.WriteLine("Закрытие файла " + FilePath);
-            }
+            }*/
         }
     }
 }

@@ -1,45 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SearchSystem.TermReader">
+    <Position X="9.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAQAAAggAQKABAAACAgEAAAAABgAAIAAAAAFAAAA=</HashCode>
+      <FileName>TermReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.FileReader">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAAAAAAAAAAAAAAAAAAAAAAAAAEAACABAAAAAAAA=</HashCode>
+      <FileName>FileReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.Index">
+    <Position X="7" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAgQAAAAAAAgAAII=</HashCode>
+      <FileName>Index.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.RequestProcessing">
+    <Position X="3.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAEAAiAAAAAAAAAAACgChIAAAAEABAAAI=</HashCode>
+      <FileName>RequestProcessing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="SearchSystem.Term">
-    <Position X="3.25" Y="0.5" Width="1.5" />
+    <Position X="1.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAIAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>SearchSystemModels.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SearchSystem.Document">
-    <Position X="1" Y="0.5" Width="1.5" />
+    <Position X="1.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>SearchSystemModels.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SearchSystem.File">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+    <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SearchSystemModels.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SearchSystem.Index">
-    <Position X="7.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAgAAIA=</HashCode>
-      <FileName>Index.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SearchSystem.FileReader">
-    <Position X="9.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AABgAAAAAAAAAAAAAAAAAAAAAAAAAEAACABAAAAAAAA=</HashCode>
-      <FileName>FileReader.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SearchSystem.TermReader">
-    <Position X="11.75" Y="0.5" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAEAAQAAAggAQCAAAAACAgEAAAAABgAAIAAAAAFAAAA=</HashCode>
-      <FileName>TermReader.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -2,22 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SearchSystem
 {
     public class Index
     {
-        private List<Term> Terms = new List<Term>();
+        //private List<Term> Terms = new List<Term>();
 
         private List<File> Files = new List<File>();
 
-        private RequestProcessing requestProcessing = new RequestProcessing();
+        private RequestProcessing requestProcessing;
 
         public Index(string folderPath) 
         {
             GetFiles(folderPath);
             GetTerms();
+            requestProcessing = new RequestProcessing(Files.ToDictionary(i => i.Id, i => i.Name));
             WaitingRequest();
+
+            
         }
 
         /// <summary>
