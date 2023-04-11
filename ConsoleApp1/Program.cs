@@ -43,6 +43,21 @@ namespace search_engine
         public Document blancDoc = new Document();
 
 
+        public List<int> AllDocuments() // Получение List с id всех документов
+        {
+            List<int> allDocuments = new List<int>();
+            foreach (Term term in this.terms)
+            {
+                List<int> docsId = new List<int>();
+                foreach (Document document in term.docs)
+                {
+                    docsId.Add(document.id);
+                }
+                allDocuments = Enumerable.Union(allDocuments, docsId).ToList();
+            }
+            return allDocuments;
+        }
+
         private bool WordPresence(string word)
         {
             // Проверка на наличие слова в словаре
@@ -131,7 +146,7 @@ namespace search_engine
                                     dummyDoc.pos.Add(position - (blancTerm.name.Length)); // Добавление новой позиции для данного слова в текущем документе
                                     dummyDoc.frenq++; // Увеличение числа вхождений данного слова в текущий документ
 
-                                    dummy.docs[indexDoc] = dummyDoc; // Изменение List с документом данного слова из-за особенностей языка 
+                                    dummy.docs[indexDoc] = dummyDoc; // Изменение List с документом данного слова из-за особенностей языка C#
                                 }
                                 dummy.count++; // Увеличение числа вхождений слова вообще в какой либо документ
                                 terms[index] = dummy;
@@ -161,7 +176,21 @@ namespace search_engine
         {
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + "text_documents\\";
             Catalog catalog = new Catalog(path);
-            RequestToCatalog rtk = new RequestToCatalog(catalog.terms);
+
+            string request = "как and дела or not вас";
+
+            List<string> parts = StringHandler.HandlerString(request);
+
+            List<Term> requestWithStatistic = RequestEntities.RequestObjects(parts, catalog.terms);
+            List<int> allDocuments = catalog.AllDocuments();
+
+            RequestToCatalog rtk = new RequestToCatalog(requestWithStatistic, allDocuments);
+            List<Term> result = rtk.Request();
+
+            RequestVisualization.Visualization(result);
+
+            //RequestToCatalog rtk = new RequestToCatalog(catalog.terms, allDocuments);
+
             /*foreach(Term term in rtk.terms)
             {
                 Console.WriteLine(term.name);
@@ -171,7 +200,7 @@ namespace search_engine
                 }
                 Console.WriteLine("\n");
             }*/
-            rtk.Request("как and дела or not вас");
+            //rtk.Request("как and дела or not вас");
         }
     }
 }

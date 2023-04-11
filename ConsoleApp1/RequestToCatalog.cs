@@ -6,9 +6,9 @@ namespace ConsoleApp1
     {
         private List<Term> terms = new List<Term>();
         private List<int> allDocuments = new List<int>();
+        List<Term> requestWithStatistic;
 
-
-        private List<Term> RequestObjects(List<string> parts)
+        /*private List<Term> RequestObjects(List<string> parts)
         {
             // Сбор структур для слов
             List<Term> requestStatistic = new List<Term>();
@@ -38,11 +38,11 @@ namespace ConsoleApp1
                     Console.Write(i);
                 }
                 Console.WriteLine("\n");
-            }*/
+            } здесь конец комментария
             return requestStatistic;
-        }
+        }*/
 
-        private List<string> HandlerString(string request) // Добавление and в строку запроса вместо пробелов между словами
+        /*private List<string> HandlerString(string request) // Добавление and в строку запроса вместо пробелов между словами
         {
             List<string> partsRequest = request.Split(" ").ToList<string>();
             for (int i = 0; i < partsRequest.Count() - 1; i++)
@@ -53,9 +53,9 @@ namespace ConsoleApp1
                 }
             }
             return partsRequest;
-        }
+        }*/
 
-        private List<int> AllDocuments() // Получение List с id всех документов
+        /*private List<int> AllDocuments() // Получение List с id всех документов
         {
             List<int> allDocuments = new List<int>();
             foreach (Term term in this.terms)
@@ -68,7 +68,7 @@ namespace ConsoleApp1
                 allDocuments = Enumerable.Union(allDocuments, docsId).ToList();
             }
             return allDocuments;
-        }
+        }*/
 
         private List<Term> NotHandler(List<Term> requestWithStatistic)
         {
@@ -138,7 +138,7 @@ namespace ConsoleApp1
             return requestWithAnd;
         }
 
-        /*private List<Term> OrHandler(List<Term> requestWithAnd)
+        private List<Term> OrHandler(List<Term> requestWithAnd)
         {
             List<Term> requestWithOr = requestWithAnd;
             Term blancTerm = new Term();
@@ -159,20 +159,29 @@ namespace ConsoleApp1
                 }
             }
 
-            foreach (Term rq in requestWithOr)
+            /*foreach (Term rq in requestWithOr)
             {
                 Console.WriteLine(rq.name);
-                foreach (int i in rq.vectorIdDocuments)
+                Console.WriteLine("Встречаемость " + rq.count);
+                foreach (int id in rq.vectorIdDocuments)
                 {
-                    Console.Write(i);
+                    Console.WriteLine("Документ " + id);
+                    int index = rq.docs.FindIndex(i => i.id == id);
+                    if (index != -1)
+                    {
+                        Console.WriteLine("Адрес в тексте");
+                        Console.WriteLine(string.Join(",", rq.docs[index].pos));
+                    }
+
+                    Console.WriteLine("\n");
                 }
                 Console.WriteLine("\n");
-            }
+            }*/
 
             return requestWithOr;
-        }*/
+        }
 
-        private void RequestVisualization(List<Term> requestWithAnd)
+        /*private void RequestVisualization(List<Term> requestWithAnd)
         {
             foreach (Term term in requestWithAnd)
             {
@@ -195,16 +204,19 @@ namespace ConsoleApp1
                     Console.WriteLine("\n");
                 }
             }
-        }
-
-        public void Request(string request)
+        }*/
+        
+        public List<Term> Request()//string request)
         {
-            List<string> parts = this.HandlerString(request); // Добавление в строку and вместо пробелов между словами
-            List<Term> requestWithStatistic = this.RequestObjects(parts); // Сбор структур для слов
-            List<Term> requestWithNot = this.NotHandler(requestWithStatistic); // Обработка not
+            //List<string> parts = StringHandler.HandlerString(request); //this.HandlerString(request);  Добавление в строку and вместо пробелов между словами
+            //List<Term> requestWithStatistic = RequestEntities.RequestObjects(parts, this.terms); //this.RequestObjects(parts); Сбор структур для слов
+
+            List<Term> requestWithNot = this.NotHandler(this.requestWithStatistic); // Обработка not
             List<Term> requestWithAnd = this.AndHandler(requestWithNot); // Обработка and
-            //List<Term> requestWithOr = this.OrHandler(requestWithAnd);
-            RequestVisualization(requestWithAnd);
+            List<Term> requestWithOr = this.OrHandler(requestWithAnd);
+
+            return requestWithOr;
+            //RequestVisualization(requestWithAnd);
             //Console.WriteLine(string.Join(",", this.allDocuments));
 
             //List<string> operators = new List<string>();
@@ -242,10 +254,13 @@ namespace ConsoleApp1
             }*/
         }
 
-        public RequestToCatalog(List<Term> terms)
+        public RequestToCatalog(/*List<Term> terms*/List<Term> requestWithStatistic, List<int> allDocuments)
         {
-            this.terms = terms; // Получение всего инвертированного индекса (полного каталога)
-            this.allDocuments = AllDocuments(); // Получение полного списка id документов в каталоге
+            //this.terms = terms; // Получение всего инвертированного индекса (полного каталога)
+            this.requestWithStatistic = requestWithStatistic;
+            this.allDocuments = allDocuments; // Получение полного списка id документов в каталоге
+            //this.allDocuments = AllDocuments(); // Получение полного списка id документов в каталоге
+
         }
     }
 }
