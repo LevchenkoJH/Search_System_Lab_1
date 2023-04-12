@@ -13,53 +13,29 @@ namespace SearchSystem
 {
     public class Index
     {
-        //private List<Term> Terms = new List<Term>();
-
+        /// <summary>
+        /// Термины индекса
+        /// </summary>
+        private List<Term> Terms = new List<Term>();
+        /// <summary>
+        /// Файлы к которым относится индекс
+        /// </summary>
         private List<File> Files = new List<File>();
+        /// <summary>
+        /// Класс для обработки запроса
+        /// </summary>
+        private RequestProcessing requestProcessing;// Возможно стоит сделать статичным 
 
-        private RequestProcessing requestProcessing;
 
-        public Index(string folderPath) 
+
+
+        public Index(List<File> files) 
         {
-            GetFiles(folderPath);
+            Files = files;
             GetTerms();
             requestProcessing = new RequestProcessing(Files.ToDictionary(i => i.Id, i => i.Name));
-            WaitingRequest();
 
             
-        }
-
-        /// <summary>
-        /// Получаем файлы из папки
-        /// </summary>
-        private void GetFiles(string folderPath)
-        {
-            try
-            {
-                string filesPath = Path.Join(Directory.GetCurrentDirectory(), folderPath);
-                string[] fileNames = Directory.GetFiles(filesPath);
-
-                Console.WriteLine("Документы:");
-                foreach (string fileName in fileNames)
-                {
-                    Console.WriteLine(fileName);
-                }
-
-                for (int i = 0; i < fileNames.Length; i++)
-                {
-                    var file = new File
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = fileNames[i],
-                        Frequency = 0
-                    };
-                    Files.Add(file);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
 
         private void GetTerms()
@@ -98,15 +74,5 @@ namespace SearchSystem
             }
         }
 
-        private void WaitingRequest()
-        {
-            Console.Write(">");
-            string request = Console.ReadLine();
-            if (request != null)
-            {
-                if (!requestProcessing.Request(request))
-                    WaitingRequest();
-            }
-        }
     }
 }
