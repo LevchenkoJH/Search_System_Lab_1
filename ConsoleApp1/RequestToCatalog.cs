@@ -8,6 +8,14 @@ namespace ConsoleApp1
         private List<int> allDocuments = new List<int>();
         List<Term> requestWithStatistic;
 
+        internal RequestVisualization RequestVisualization
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         /*private List<Term> RequestObjects(List<string> parts)
         {
             // Сбор структур для слов

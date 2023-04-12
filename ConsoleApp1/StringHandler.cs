@@ -8,6 +8,14 @@ namespace ConsoleApp1
 {
     internal class StringHandler
     {
+        internal RequestEntities RequestEntities
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public static List<string> HandlerString(string request) // Добавление and в строку запроса вместо пробелов между словами
         {
             List<string> partsRequest = request.Split(" ").ToList<string>();

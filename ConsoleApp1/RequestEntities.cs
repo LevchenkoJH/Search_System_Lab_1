@@ -9,6 +9,14 @@ namespace ConsoleApp1
 {
     internal class RequestEntities
     {
+        internal RequestToCatalog RequestToCatalog
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public static List<Term> RequestObjects(List<string> parts, List<Term> terms)
         {
             // Сбор структур для слов

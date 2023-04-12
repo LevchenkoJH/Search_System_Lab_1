@@ -19,6 +19,14 @@ namespace search_engine
             this.frenq = 0;
             this.id = 0;
         }
+
+        public Term Term
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 
     public struct Term
@@ -34,6 +42,14 @@ namespace search_engine
             this.docs = new List<Document>();
             this.vectorIdDocuments = new List<int>();
         }
+
+        public Catalog Catalog
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 
     public class Catalog
@@ -42,6 +58,21 @@ namespace search_engine
         public Term blancTerm = new Term();
         public Document blancDoc = new Document();
 
+        internal RequestEntities RequestEntities
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal RequestToCatalog RequestToCatalog
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
         public List<int> AllDocuments() // Получение List с id всех документов
         {
