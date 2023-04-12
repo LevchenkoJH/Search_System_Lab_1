@@ -91,7 +91,12 @@ namespace SearchSystem
             {
                 case "exit":
                     return true;
-
+                case "files":
+                    index.PrintFileStatistics();
+                    return false;
+                case "terms":
+                    index.PrintTermStatistics();
+                    return false;
                 default:
                     return false;
             }
@@ -99,10 +104,10 @@ namespace SearchSystem
 
         private bool SearchProcessing(string search)
         {
-            Console.WriteLine($"SEARCH: {search}");
+            Console.WriteLine($"-----------------------SEARCH:\"{search}\"-----------------------");
 
             // Запрос отправляется в индекс
-            List<Document> result = index.Search(search).OrderBy(i => i.Frequency).ToList();
+            List<Document> result = index.Search(search).OrderByDescending(i => i.Frequency).ToList();
             
             foreach (Document document in result)
             {

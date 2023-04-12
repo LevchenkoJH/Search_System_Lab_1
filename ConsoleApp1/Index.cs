@@ -63,8 +63,6 @@ namespace SearchSystem
 
         public List<Document> Search(string search)
         {
-            Console.WriteLine($"SEARCH: {search}");
-
             // Разбиваем запрос на слова
             List<string> words = search.Split().Where(i => i != "").ToList();
 
@@ -99,9 +97,6 @@ namespace SearchSystem
                         // Тогда добавляем операцию AND в очередь
                         queue_operations.Add(RequestProcessing.OPER_AND);
                     flag_double_term = true;
-                    Console.WriteLine(words[i]);
-                    Console.WriteLine("Нашли термин");
-                    
                 }
                 // Нашли ОR или AND
                 else if (RequestProcessing.IsOperation(words[i]))
@@ -110,31 +105,8 @@ namespace SearchSystem
                     queue_operations.Add(words[i]);
 
                     flag_double_term = false;
-                    Console.WriteLine(words[i]);
-                    Console.WriteLine("Нашли ОR или AND");
-                }
-
-
-                // Для отладки
-                else 
-                {
-                    Console.WriteLine("ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR !!!");
                 }
             }
-
-
-            Console.WriteLine("AND OR---");
-            foreach (var test in queue_terms)
-            {
-                Console.WriteLine(test.Count);
-            }
-
-            foreach (var test in queue_operations)
-            {
-                Console.WriteLine(test);
-            }
-
-
 
             // Проходим по очереди операций 
             // Сначала исполняем только AND
@@ -160,19 +132,6 @@ namespace SearchSystem
 
             queue_operations = queue_operations.Where(i => i != RequestProcessing.OPER_AND).ToList();
 
-            Console.WriteLine("OR----");
-            foreach (var test in queue_terms)
-            {
-                Console.WriteLine(test.Count);
-            }
-
-            foreach (var test in queue_operations)
-            {
-                Console.WriteLine(test);
-            }
-
-
-
             // Проходим по очереди операций 
             // Теперь исполняем только OR
             for (int i = 0; i < queue_operations.Count; i++)
@@ -185,16 +144,6 @@ namespace SearchSystem
                     queue_terms[i] = result;
                     queue_terms[i + 1] = result;
                 }
-                else
-                {
-                    Console.WriteLine("ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR !!!");
-                }
-            }
-
-            Console.WriteLine("----");
-            foreach (var test in queue_terms)
-            {
-                Console.WriteLine(test.Count);
             }
 
             return queue_terms[queue_terms.Count - 1];
@@ -214,20 +163,8 @@ namespace SearchSystem
             }
             else
             {
-                return OperationNot(term);
+                return RequestProcessing.OperationNot(term, Terms);
             }
-        }
-
-        private List<Document> OperationNot(string term)
-        {
-            List<Document> result = new List<Document>();
-            List<List<Document>> list = Terms.Where(i => i.Name != term).Select(i => i.Documents).ToList();
-
-            foreach (var li in list)
-            {
-                result.AddRange(li);
-            }
-            return result;
         }
 
         public string GetFileName(Guid fileId)
@@ -251,5 +188,23 @@ namespace SearchSystem
             }
         }
 
+        public void PrintTermStatistics()
+        {
+            Console.WriteLine("-----------------------PrintTermStatistics()-----------------------");
+            Console.WriteLine(Terms.Count);
+            foreach (Term term in Terms)
+            {
+                Console.WriteLine($"{term.Name} ** Frequency: {term.Frequency}");
+                foreach (Document document in term.Documents)
+                {
+                    Console.WriteLine($"Документ Id: {document.FileId} ** Frequency: {document.Frequency}");
+                    foreach (int position in document.Positions)
+                    {
+                        Console.WriteLine($"Позиция -> {position}");
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
     }
 }

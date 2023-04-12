@@ -1,2 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SearchSystem.FileReader">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAAAAAAAAAAAAAAAAAAAAAAAAAEAACABAAAAAAAA=</HashCode>
+      <FileName>FileReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.Index">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAIAAIAAAAAAAAAAQAAAAgAIAAAAAAAgAIA=</HashCode>
+      <FileName>Index.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.RequestProcessing">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAgAAAAAAAAAAACACgAAAAAEAAAAAI=</HashCode>
+      <FileName>RequestProcessing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.SearchEngine">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAACAAAAAAAAAAAAgABAAAAAAAgBAAI=</HashCode>
+      <FileName>SearchEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.Term">
+    <Position X="8.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAIAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>SearchSystemModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.Document">
+    <Position X="8.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>SearchSystemModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.File">
+    <Position X="10" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SearchSystemModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchSystem.TermReader">
+    <Position X="12" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAQAAAggAQCABAAACAgEAAAAABgAAIAAAAAFAAAA=</HashCode>
+      <FileName>TermReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

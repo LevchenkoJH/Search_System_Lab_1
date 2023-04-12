@@ -77,7 +77,6 @@ namespace SearchSystem
                 if (line != null)
                 {
                     line = line.ToLower();
-                    //Console.WriteLine("line != null " + "---->" +line);
                     GetTerms(line);
                 }
             }
@@ -158,7 +157,6 @@ namespace SearchSystem
             else
             {
                 // Добавлям слово в коллекцию
-                //Console.WriteLine("Нашел: " + CurrentTerm + " Поз: " + PositionTerm.ToString());
                 AddTerm();
                 CurrentTerm = "";
                 CURRENT_STATE = STATE_WAITING;
@@ -227,25 +225,6 @@ namespace SearchSystem
                 };
 
                 terms.Add(_term);
-            }
-        }
-
-        public void PrintTermStatistics()
-        {
-            Console.WriteLine("-----------------------PrintTermStatistics()-----------------------");
-            Console.WriteLine(terms.Count);
-            foreach (Term term in terms)
-            {
-                Console.WriteLine($"{term.Name} ** Frequency: {term.Frequency}");
-                foreach (Document document in term.Documents)
-                {
-                    Console.WriteLine($"Документ Id: {document.FileId} ** Frequency: {document.Frequency}");
-                    foreach (int position in document.Positions)
-                    {
-                        Console.WriteLine($"Позиция -> {position}");
-                    }
-                }
-                Console.WriteLine();
             }
         }
 

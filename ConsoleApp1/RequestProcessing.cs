@@ -10,8 +10,6 @@ namespace SearchSystem
 {
     internal class RequestProcessing
     {
-        //private const char COMAND_SYMBOL = '!';
-
         public const string OPER_AND = "AND";
         public const string OPER_OR = "OR";
         public const string OPER_NOT = "NOT";
@@ -25,28 +23,10 @@ namespace SearchSystem
             return false;
         }
 
-        private List<Document> SearchTerm(string term, bool isNot)
-        {
-            // Сначала находим нужный термин
-            if (!isNot)
-            {
-                Term? _term = null;// TermReader.GetTerms().Where(i => i.Name == term).FirstOrDefault();
-
-                if (_term != null)
-                    return _term.Documents;
-                else
-                    return new List<Document>();
-            }
-            else
-            {
-                return OperationNot(term);
-            }
-        }
-
-        private List<Document> OperationNot(string term)
+        public static List<Document> OperationNot(string term, List<Term> terms)
         {
             List<Document> result = new List<Document>();
-            List<List<Document>> list = new List<List<Document>>();// TermReader.GetTerms().Where(i => i.Name != term).Select(i => i.Documents).ToList();
+            List<List<Document>> list = terms.Where(i => i.Name != term).Select(i => i.Documents).ToList();
 
             foreach (var li in list)
             {
