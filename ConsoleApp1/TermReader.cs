@@ -12,22 +12,22 @@ namespace SearchSystem
         /// <summary>
         /// Id текущего документа
         /// </summary>
-        private static Guid CurrentFileId = Guid.Empty;
+        private Guid CurrentFileId = Guid.Empty;
 
         /// <summary>
         /// Текущая позиция термина
         /// </summary>
-        private static int PositionTerm = 0;
+        private int PositionTerm = 0;
 
         /// <summary>
         /// Текущая позиция символа
         /// </summary>
-        private static int PositionSybol = 0;
+        private int PositionSybol = 0;
 
         /// <summary>
         /// Текущее состояние
         /// </summary>
-        private static int CURRENT_STATE = -1;
+        private int CURRENT_STATE = -1;
         /// <summary>
         /// Состояние ожидания
         /// </summary>
@@ -44,18 +44,18 @@ namespace SearchSystem
         /// <summary>
         /// Текущее собираемое слово
         /// </summary>
-        private static string CurrentTerm = "";
+        private string CurrentTerm = "";
 
         /// <summary>
         /// Собранные термины
         /// </summary>
-        private static List<Term> terms = new List<Term>();
+        private List<Term> terms = new List<Term>();
 
         /// <summary>
         /// Считывание слов из файла
         /// </summary>
         /// <param name="filePath"></param>
-        public static void FindTermsInFile(FileReader fileReader, Guid fileId)
+        public void FindTermsInFile(FileReader fileReader, Guid fileId)
         {
             // Фиксируем Id документа
             CurrentFileId = fileId;
@@ -89,7 +89,7 @@ namespace SearchSystem
         /// Получаем термины из строки
         /// </summary>
         /// <param name="line">Обрабатываемая строка</param>
-        private static void GetTerms(string line)
+        private void GetTerms(string line)
         {
             // Проходим по каждому символу
             for (int i = 0; i < line.Length; i++)
@@ -104,7 +104,7 @@ namespace SearchSystem
         /// Шаг конечного автомата
         /// </summary>
         /// <param name="symbol">Обрабатываемый символ</param>
-        private static void Step(char symbol)
+        private void Step(char symbol)
         {
             switch (CURRENT_STATE)
             {
@@ -127,7 +127,7 @@ namespace SearchSystem
         /// Поиск начала термина
         /// </summary>
         /// <param name="symbol">Обрабатываемый символ</param>
-        private static void SearchStartTerm(char symbol)
+        private void SearchStartTerm(char symbol)
         {
             // Термины начинаются только с букв
             // Если символ является буквой
@@ -146,7 +146,7 @@ namespace SearchSystem
         /// Поиск конца термина
         /// </summary>
         /// <param name="symbol">Обрабатываемый символ</param>
-        private static void SearchEndTerm(char symbol)
+        private void SearchEndTerm(char symbol)
         {
             // При встрече символа являющегося частью термина
             if ((symbol >= 'a' && symbol <= 'z') || symbol == '-' || symbol == '\'')
@@ -168,7 +168,7 @@ namespace SearchSystem
         /// <summary>
         /// Добавление нового термина в коллекцию + её обслуживание
         /// </summary>
-        private static void AddTerm()
+        private void AddTerm()
         {
             // Ищем данный термин в коллекции
             int term_index = terms.FindIndex(i => i.Name == CurrentTerm);
@@ -230,7 +230,7 @@ namespace SearchSystem
             }
         }
 
-        public static void PrintTermStatistics()
+        public void PrintTermStatistics()
         {
             Console.WriteLine("-----------------------PrintTermStatistics()-----------------------");
             Console.WriteLine(terms.Count);
@@ -249,12 +249,19 @@ namespace SearchSystem
             }
         }
 
-        public static int GetFileFrequency(Guid fileId)
+        /// <summary>
+        /// Сколько терминов в себе содержит документ
+        /// </summary>
+        public int GetFileFrequency(Guid fileId)
         {
-            return terms.Where(i => i.Documents.Where(j => j.FileId == fileId).Count() != 0).Count();
+            return terms
+                .Where(i => i.Documents
+                                .Where(j => j.FileId == fileId)
+                                    .Count() != 0
+                ).Count();
         }
 
-        public static List<Term> GetTerms()
+        public List<Term> GetTerms()
         {
             return terms;
         }

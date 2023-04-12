@@ -1,6 +1,6 @@
 ﻿using SearchSystem;
 
-var TEST = new SearchSystem.Index("input");
+var TEST = new SearchSystem.SearchEngine("input");
 
 //TermReader.PrintTermStatistics();
 

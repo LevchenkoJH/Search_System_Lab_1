@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 
 namespace SearchSystem
 {
-    class SearchEngine
+    public class SearchEngine
     {
+        private const char COMAND_SYMBOL = '!';
+
         private Index index;
 
-
-        SearchSystem(string folderPath)
+        public SearchEngine(string folderPath)
         {
+            // Собираем файлы из директории
             List<File> files = GetFiles(folderPath);
+            // На основании этих файлов создаем индекс
+            // Классы поддержки используется в индексе для считывания файлов
             index = new Index(files);
-
-
+            // Ожидаем запрос пользователя
             WaitingRequest();
         }
 
@@ -25,9 +28,9 @@ namespace SearchSystem
         /// </summary>
         private List<File> GetFiles(string folderPath)
         {
+            List<File> files = new List<File>();
             try
             {
-                List<File> files = new List<File>();
                 string filesPath = Path.Join(Directory.GetCurrentDirectory(), folderPath);
                 string[] fileNames = Directory.GetFiles(filesPath);
 
@@ -52,14 +55,8 @@ namespace SearchSystem
             {
                 Console.WriteLine(e.Message);
             }
+            return files;
         }
-
-
-
-
-
-
-
 
         private void WaitingRequest()
         {
@@ -67,9 +64,58 @@ namespace SearchSystem
             string request = Console.ReadLine();
             if (request != null)
             {
-                if (!requestProcessing.Request(request))
+                if (!Request(request))
                     WaitingRequest();
             }
+        }
+
+        public bool Request(string request)
+        {
+            if (request.Length == 0)
+                return false;
+
+            if (request[0] == COMAND_SYMBOL)
+            {
+                return CommandProcessing(request.Remove(0, 1));
+            }
+            else
+            {
+                return SearchProcessing(request);
+            }
+        }
+
+        private bool CommandProcessing(string comand)
+        {
+            Console.WriteLine($"COMAND: {comand}");
+            switch (comand)
+            {
+                case "exit":
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        private bool SearchProcessing(string search)
+        {
+            Console.WriteLine($"SEARCH: {search}");
+
+            // Запрос отправляется в индекс
+            List<Document> result = index.Search(search).OrderBy(i => i.Frequency).ToList();
+            
+            foreach (Document document in result)
+            {
+                Console.WriteLine($"File: {index.GetFileName(document.FileId)}\nFrequency: {document.Frequency}");
+                Console.Write("Position:");
+                foreach (int position in document.Positions)
+                {
+                    Console.Write($"{position}, ");
+                }
+                Console.Write("\n");
+            }
+
+            return false;
         }
     }
 }

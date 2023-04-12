@@ -22,7 +22,7 @@ namespace SearchSystem
         public List<Document> Documents { get; set; }
     }
 
-    internal class Document
+    public class Document
     {
         /// <summary>
         /// Файл (документ) на который ссылаемся
@@ -38,7 +38,7 @@ namespace SearchSystem
         public List<int> Positions { get; set; }
     }
 
-    internal class File
+    public class File
     {
         /// <summary>
         /// Документ (файл)
