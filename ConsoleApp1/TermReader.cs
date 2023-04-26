@@ -51,6 +51,15 @@ namespace SearchSystem
         /// </summary>
         private List<Term> terms = new List<Term>();
 
+
+
+
+
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        public TreeForIndex treeIndex = new TreeForIndex();
+
         /// <summary>
         /// Считывание слов из файла
         /// </summary>
@@ -130,7 +139,7 @@ namespace SearchSystem
         {
             // Термины начинаются только с букв
             // Если символ является буквой
-            if (symbol >= 'a' && symbol <= 'z')
+            if (symbol >= 'а' && symbol <= 'я')
             {
                 // К собираемому термину добавляем символ
                 CurrentTerm += symbol;
@@ -148,7 +157,7 @@ namespace SearchSystem
         private void SearchEndTerm(char symbol)
         {
             // При встрече символа являющегося частью термина
-            if ((symbol >= 'a' && symbol <= 'z') || symbol == '-' || symbol == '\'')
+            if ((symbol >= 'а' && symbol <= 'я') || symbol == '-' || symbol == '\'')
             {
                 // Продолэаем собирать термин
                 CurrentTerm += symbol;
@@ -168,8 +177,20 @@ namespace SearchSystem
         /// </summary>
         private void AddTerm()
         {
+            CurrentTerm = "$" + CurrentTerm + "$";
+
+            for (int i = 0; i < CurrentTerm.Length; i++)
+            {
+                if (i + 2 < CurrentTerm.Length)
+                {
+                    treeIndex.AddTrigram(CurrentTerm.Substring(i, 3), CurrentFileId, PositionTerm);
+                }
+            }
+
+            //treeIndex.Add
+
             // Ищем данный термин в коллекции
-            int term_index = terms.FindIndex(i => i.Name == CurrentTerm);
+            /*int term_index = terms.FindIndex(i => i.Name == CurrentTerm);
 
             // Если данный термин уже был найден ранее
             if (term_index != -1)
@@ -225,7 +246,7 @@ namespace SearchSystem
                 };
 
                 terms.Add(_term);
-            }
+            }*/
         }
 
         /// <summary>
@@ -243,6 +264,11 @@ namespace SearchSystem
         public List<Term> GetTerms()
         {
             return terms;
+        }
+
+        public TreeForIndex GetTree()
+        {
+            return treeIndex;
         }
     }
 }

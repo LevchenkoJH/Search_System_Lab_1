@@ -18,6 +18,21 @@ namespace SearchSystem
         /// Термины индекса
         /// </summary>
         private List<Term> Terms = new List<Term>();
+
+
+
+
+        private TreeForIndex treeIndex = new TreeForIndex();
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Файлы к которым относится индекс
         /// </summary>
@@ -56,9 +71,26 @@ namespace SearchSystem
             {
                 Console.WriteLine(e.Message);
             }
+
             // Вспомогательный класс выдает список найденных терминов
             // Их сохраняем в индексе
             Terms = termReader.GetTerms();
+
+
+
+            treeIndex = termReader.GetTree();
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
         public List<Document> Search(string search)
@@ -75,6 +107,8 @@ namespace SearchSystem
             bool flag_not = false;
             // Флаг двух подряд идущих термина
             bool flag_double_term = false;
+
+
             // Составляем эти очереди
             for (int i = 0; i < words.Count(); i++)
             {
@@ -147,6 +181,8 @@ namespace SearchSystem
             }
 
             return queue_terms[queue_terms.Count - 1];
+
+            //return queue_terms;
         }
 
         private List<Document> SearchTerm(string term, bool isNot)
