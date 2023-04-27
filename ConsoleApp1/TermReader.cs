@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -52,7 +53,7 @@ namespace SearchSystem
         private List<Term> terms = new List<Term>();
 
 
-
+        //private Stemmer stem = new Stemmer();
 
 
         /// <summary>
@@ -159,7 +160,7 @@ namespace SearchSystem
             // При встрече символа являющегося частью термина
             if ((symbol >= 'а' && symbol <= 'я') || symbol == '-' || symbol == '\'')
             {
-                // Продолэаем собирать термин
+                // Продолжаем собирать термин
                 CurrentTerm += symbol;
             }
             // Иначе окончание слова
@@ -177,13 +178,18 @@ namespace SearchSystem
         /// </summary>
         private void AddTerm()
         {
-            CurrentTerm = "$" + CurrentTerm + "$";
-
-            for (int i = 0; i < CurrentTerm.Length; i++)
+            //if (CurrentTerm == "AND")
+            //Console.WriteLine("TERM = " + CurrentTerm);
+            Stemmer stem = new Stemmer();
+            string CurrTerm = stem.Stem(CurrentTerm);
+            CurrTerm = "$" + CurrTerm + "$";
+            Console.WriteLine("NEW WORD = " + CurrTerm);
+            
+            for (int i = 0; i < CurrTerm.Length; i++)
             {
-                if (i + 2 < CurrentTerm.Length)
+                if (i + 2 < CurrTerm.Length)
                 {
-                    treeIndex.AddTrigram(CurrentTerm.Substring(i, 3), CurrentFileId, PositionTerm);
+                    treeIndex.AddTrigram(CurrTerm.Substring(i, 3), CurrentFileId, PositionTerm);
                 }
             }
 

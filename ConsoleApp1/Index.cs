@@ -9,6 +9,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Net;
+using ConsoleApp1;
 
 namespace SearchSystem
 {
@@ -67,17 +68,6 @@ namespace SearchSystem
 
 
             treeIndex = termReader.GetTree();
-
-
-
-
-
-
-
-
-
-
-
 
         }
 
@@ -175,17 +165,14 @@ namespace SearchSystem
 
         private List<Document> SearchTerm(string term, bool isNot)
         {
-            // Применить Стеминг к term
+            // Применить Стемvинг к term
             //////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
+            Stemmer stem = new Stemmer();
 
             //////////////////////////////////////////////////////////////////////////////////////
-
+            term = stem.Stem(term);
+            //Console.WriteLine("NEW WORD = " + t);
 
             // Очередь терминов (списков документов которые им соответствуют)
             var queue_terms = new List<List<Document>>();
