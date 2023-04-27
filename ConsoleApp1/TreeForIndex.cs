@@ -9,18 +9,14 @@ namespace SearchSystem
 {
     public class TreeForIndex
     {
-        private const int BorderA = 1040;
-        private const int BorderB = 1071;
-
+        private const int BorderA = (int)'а';
+        private const int BorderB = (int)'я';
 
         // Корень дерева
         public Sheet Root = new Sheet(BorderA, BorderB);
 
         public void AddTrigram(string trigram, Guid fileId, int position)
         {
-
-            //Console.WriteLine(trigram);
-
             // Текущий лист
             Sheet currentSheet = Root;
 
@@ -37,64 +33,49 @@ namespace SearchSystem
                         //Console.WriteLine("Конец дерева Влево");
                         // Нужно сменить символ
                         index++;
+
+                        // Если дошли до конца триграммы
                         if (index == trigram.Length)
                         {
-                            
+
+                            if (currentSheet.LeftChild == null)
+                            {
+                                currentSheet.LeftChild = new Sheet(BorderA, BorderB);
+                            }
 
 
+                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            // Проверяем записан ли текущий документ в списке термина
+                            int document_index = currentSheet.LeftChild.Documents.FindIndex(i => i.FileId == fileId);
+
+                            // Если уже есть
+                            if (document_index != -1)
+                            {
+                                // Добавляем позицию термина
+                                currentSheet.LeftChild.Documents[document_index].Positions.Add(position);
+                                currentSheet.LeftChild.Documents[document_index].Frequency++;
+                            }
+                            else
+                            {
+                                // Иначе создаем новый
+                                Document _document = new Document()
+                                {
+                                    FileId = fileId,
+                                    Positions = new List<int>() { position },
+
+                                    Frequency = 1
+                                };
+                                currentSheet.LeftChild.Documents.Add(_document);
+                            }
 
                             break;
                         }
-
-                            
-
-
-
 
                         //!!!!
                         if (currentSheet.LeftChild == null)
                         {
                             currentSheet.LeftChild = new Sheet(BorderA, BorderB);
                         }
-
-
-
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        // Проверяем записан ли текущий документ в списке термина
-                        int document_index = currentSheet.LeftChild.Documents.FindIndex(i => i.FileId == fileId);
-
-                        // Если уже есть
-                        if (document_index != -1)
-                        {
-                            // Добавляем позицию термина
-                            currentSheet.LeftChild.Documents[document_index].Positions.Add(position);
-                            currentSheet.LeftChild.Documents[document_index].Frequency++;
-                        }
-                        else
-                        {
-                            // Иначе создаем новый
-                            Document _document = new Document()
-                            {
-                                FileId = fileId,
-                                Positions = new List<int>() { position },
-
-                                Frequency = 1
-                            };
-                            currentSheet.LeftChild.Documents.Add(_document);
-                        }
-
-
-
-
-
-
-
-
-
-
-
-
-
                     }
                     else
                     {
@@ -115,12 +96,40 @@ namespace SearchSystem
                         // Нужно сменить символ
                         index++;
                         if (index == trigram.Length)
+                        {
+                            //!!!!!
+                            if (currentSheet.RightChild == null)
+                            {
+                                currentSheet.RightChild = new Sheet(BorderA, BorderB);
+                            }
+
+                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            // Проверяем записан ли текущий документ в списке термина
+                            int document_index = currentSheet.RightChild.Documents.FindIndex(i => i.FileId == fileId);
+
+                            // Если уже есть
+                            if (document_index != -1)
+                            {
+                                // Добавляем позицию термина
+                                currentSheet.RightChild.Documents[document_index].Positions.Add(position);
+                                currentSheet.RightChild.Documents[document_index].Frequency++;
+                            }
+                            else
+                            {
+                                // Иначе создаем новый
+                                Document _document = new Document()
+                                {
+                                    FileId = fileId,
+                                    Positions = new List<int>() { position },
+
+                                    Frequency = 1
+                                };
+                                currentSheet.RightChild.Documents.Add(_document);
+                            }
+
                             break;
-
-
-
-
-
+                        }
+                            
                         //!!!!!
                         if (currentSheet.RightChild == null)
                         {
@@ -140,123 +149,64 @@ namespace SearchSystem
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public void SearchTrigram(string trigram)
+        public List<Document> SearchTrigram(string trigram)
         {
             // Текущий лист
-            /*Sheet currentSheet = Root;
+            Sheet currentSheet = Root;
 
             int index = 0;
             while (true)
             {
                 char symbol = trigram[index];
+
+                //Console.WriteLine($"{symbol} {(char)currentSheet.BorderA} {(char)currentSheet.BorderB}");
+
+
                 // Выбираем направление
                 if (symbol <= currentSheet.BorderA + (currentSheet.BorderB - currentSheet.BorderA) / 2)
                 {
                     // Влево
+                    //Console.WriteLine("Влево");
+
                     if ((currentSheet.BorderB - currentSheet.BorderA) / 2 == 0)
                     {
-                        //Console.WriteLine("Конец дерева Влево");
-                        // Нужно сменить символ
+                        // Следующий символ
                         index++;
+
+                        // Если это был последний символ
                         if (index == trigram.Length)
                         {
-
-
-
-
-                            break;
+                            // Передаем данные 
+                            return currentSheet.LeftChild.Documents;
                         }
-
-
-
-
-
-
-                        //!!!!
-
-
-
-
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        // Проверяем записан ли текущий документ в списке термина
-
-
-
-
-
-
-
-
-
-
-
-
-
                     }
-                    else
-                    {
+                    
 
-                    }
-
+                    // Иначе идем в левый лист
                     currentSheet = currentSheet.LeftChild;
                 }
                 else
                 {
                     // Вправо
+                    //Console.WriteLine("Вправо");
+
                     if ((currentSheet.BorderB - currentSheet.BorderA) / 2 == 0)
                     {
-                        //Console.WriteLine("Конец дерева Вправо");
-                        // Нужно сменить символ
+                        // Следующий символ
                         index++;
+
+                        // Если это был последний символ
                         if (index == trigram.Length)
-                            break;
-
-
-
-
-
-                        //!!!!!
-                        if (currentSheet.RightChild == null)
                         {
-                            currentSheet.RightChild = new Sheet(BorderA, BorderB);
+                            // Передаем данные
+                            return currentSheet.RightChild.Documents;
                         }
                     }
-                    else
-                    {
 
-                    }
-
+                    // Иначе идем в левый лист
                     currentSheet = currentSheet.RightChild;
                 }
-            }*/
+            }
         }
 
 
@@ -289,7 +239,7 @@ namespace SearchSystem
 
         public Sheet(int borderA, int borderB, Sheet? leftChild = null, Sheet? rightChild = null)
         {
-            Console.WriteLine($"{(char)borderA} ** {(char)borderB}");
+            //Console.WriteLine($"{(char)borderA} ** {(char)borderB}");
 
             Name = $"{(char)borderA} ** {(char)borderB}";
             BorderA= borderA;

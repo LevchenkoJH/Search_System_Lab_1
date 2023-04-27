@@ -19,19 +19,7 @@ namespace SearchSystem
         /// </summary>
         private List<Term> Terms = new List<Term>();
 
-
-
-
         private TreeForIndex treeIndex = new TreeForIndex();
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Файлы к которым относится индекс
@@ -121,8 +109,10 @@ namespace SearchSystem
                 // Нашли термин
                 else if (!RequestProcessing.IsOperation(words[i]))
                 {
+                    ////////////////////////////////////////////////////////////////////////////////////////////
                     // Добавляем в очередь терминов
                     queue_terms.Add(SearchTerm(words[i], flag_not));
+                    ////////////////////////////////////////////////////////////////////////////////////////////
                     // Обнуляем флаг отрицательности
                     flag_not = false;
 
@@ -181,14 +171,57 @@ namespace SearchSystem
             }
 
             return queue_terms[queue_terms.Count - 1];
-
-            //return queue_terms;
         }
 
         private List<Document> SearchTerm(string term, bool isNot)
         {
+            // Применить Стеминг к term
+            //////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+            //////////////////////////////////////////////////////////////////////////////////////
+
+
+            // Очередь терминов (списков документов которые им соответствуют)
+            var queue_terms = new List<List<Document>>();
+
+
+            // Пройтись по триграммам и составить очередь для попарного И 
+            term = "$" + term + "$";
+
+            for (int i = 0; i < term.Length; i++)
+            {
+                if (i + 2 < term.Length)
+                {
+                    Console.WriteLine("ПОИСК:" + term.Substring(i, 3));
+                    queue_terms.Add(treeIndex.SearchTrigram(term.Substring(i, 3)));
+                }
+            }
+
+
+            // Проходим по очереди операций 
+            // Сначала исполняем только AND
+            for (int i = 1; i < queue_terms.Count; i++)
+            {
+                
+                // Выполняем операцию между i и i + 1
+                var result = RequestProcessing.OperationAnd(queue_terms[i - 1], queue_terms[i]);
+
+                queue_terms[i - 1] = result;
+                queue_terms[i] = result;
+                
+            }
+
+            return queue_terms[queue_terms.Count - 1];
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
             // Сначала находим нужный термин
-            if (!isNot)
+            /*if (!isNot)
             {
                 Term? _term = Terms.Where(i => i.Name == term).FirstOrDefault();
 
@@ -200,7 +233,8 @@ namespace SearchSystem
             else
             {
                 return RequestProcessing.OperationNot(term, Terms);
-            }
+            }*/
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
         }
 
         public string GetFileName(Guid fileId)
