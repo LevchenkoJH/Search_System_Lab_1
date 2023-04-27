@@ -19,14 +19,6 @@ namespace search_engine
             this.frenq = 0;
             this.id = 0;
         }
-
-        public Term Term
-        {
-            get => default;
-            set
-            {
-            }
-        }
     }
 
     public struct Term
@@ -42,37 +34,15 @@ namespace search_engine
             this.docs = new List<Document>();
             this.vectorIdDocuments = new List<int>();
         }
-
-        public Catalog Catalog
-        {
-            get => default;
-            set
-            {
-            }
-        }
     }
 
-    public class Catalog
+    public class Index
     {
         public List<Term> terms = new List<Term>();
         public Term blancTerm = new Term();
         public Document blancDoc = new Document();
-
-        internal RequestEntities RequestEntities
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        internal RequestToCatalog RequestToCatalog
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        Object locker = new();
+        
 
         public List<int> AllDocuments() // Получение List с id всех документов
         {
@@ -92,6 +62,7 @@ namespace search_engine
         private bool WordPresence(string word)
         {
             // Проверка на наличие слова в словаре
+
             foreach (var term in this.terms)
             {
                 if (term.name == word)
@@ -99,6 +70,7 @@ namespace search_engine
                     return true;
                 }
             }
+            
             return false;
         }
 
@@ -129,7 +101,7 @@ namespace search_engine
             this.blancTerm.vectorIdDocuments.Add(this.blancDoc.id);
 
             this.terms.Add(this.blancTerm);
-
+            
             this.ZeroStruct(); // Обнуление всех вспомогательных структур
         }
 
@@ -137,76 +109,112 @@ namespace search_engine
         {
             // Сбор данных из текущего файла открытого в потоке sr
             int documentId = int.Parse(Path.GetFileName(file)[0].ToString());
+            //SimpleStemmer stemmer = new SimpleStemmer();
+            Stemmer stemmer = new Stemmer();
             using (StreamReader sr = File.OpenText(path + documentId.ToString() + ".txt"))
             {
                 int position = 0;
 
                 while (sr.Peek() != -1)
                 {
-                    char letter = (char)sr.Read();
-                    if (char.IsLetter((char)letter)) // Собираем слово по буквам
-                    {
-                        this.blancTerm.name += letter.ToString();
-                    }
-                    else
-                    {
-                        if (this.blancTerm.name != "")
+               
+                        char letter = ' ';
+                        lock (locker)
                         {
-                            bool found = this.WordPresence(this.blancTerm.name);
-                            if (!found)
-                            {
-                                // Если слово не найдено, то добавляем его
-                                this.AddNewWord(documentId, position);
-                                this.ZeroStruct();
-                            }
-                            else
-                            {
-                                int index = this.terms.FindIndex(i => i.name == this.blancTerm.name); // Индекс сущности данного слова в списке
-                                Term dummy = this.terms[index]; // Копия сущности слова
-                                int indexDoc = dummy.docs.FindIndex(i => i.id == (int)documentId); // Индекс текущего документа
+                            letter = (char)sr.Read();
+                        }
 
-                                if (indexDoc == -1) // Если слово встречалось, но не в текущем документе
-                                {
-                                    this.AddNewDoc(documentId, position); // Создание нового документа
-                                    dummy.docs.Add(this.blancDoc);
-                                    dummy.vectorIdDocuments.Add(documentId);
-                                }
-                                else // Если слово встречалось в текущем документе
-                                {
-                                    Document dummyDoc = dummy.docs[indexDoc]; // Текущий документ для данного слова
-                                    dummyDoc.pos.Add(position - (blancTerm.name.Length)); // Добавление новой позиции для данного слова в текущем документе
-                                    dummyDoc.frenq++; // Увеличение числа вхождений данного слова в текущий документ
-
-                                    dummy.docs[indexDoc] = dummyDoc; // Изменение List с документом данного слова из-за особенностей языка C#
-                                }
-                                dummy.count++; // Увеличение числа вхождений слова вообще в какой либо документ
-                                terms[index] = dummy;
-                                
-                                this.ZeroStruct(); // Обнуление всех вспомогательных структур
+                        if (char.IsLetter((char)letter)) // Собираем слово по буквам
+                        {
+                            lock (locker)
+                            {
+                                this.blancTerm.name += letter.ToString();
                             }
                         }
+                        else
+                        {
+                            string dummyName = "";
+                            lock(locker)
+                            {
+                                dummyName = this.blancTerm.name;
+                            }
+
+                            if (dummyName != "")//this.blancTerm.name != "")
+                            {
+                                //Console.WriteLine(dummyName);
+                                dummyName = stemmer.Stem(dummyName);//this.blancTerm.name);
+                                //dummyName = this.blancTerm.name;
+                                lock (locker)
+                                {
+                                    this.blancTerm.name = dummyName;
+                                    bool found = this.WordPresence(this.blancTerm.name);  // this.blancTerm.name);
+                                    if (!found)
+                                    {
+                                        // Если слово не найдено, то добавляем его
+                                        this.AddNewWord(documentId, position);
+                                        this.ZeroStruct();
+                                    }
+                                    else
+                                    {
+                                        int index = this.terms.FindIndex(i => i.name == this.blancTerm.name); // Индекс сущности данного слова в списке
+                                        Term dummy = this.terms[index]; // Копия сущности слова
+                                        int indexDoc = dummy.docs.FindIndex(i => i.id == (int)documentId); // Индекс текущего документа
+
+                                        if (indexDoc == -1) // Если слово встречалось, но не в текущем документе
+                                        {
+                                            this.AddNewDoc(documentId, position); // Создание нового документа
+                                            dummy.docs.Add(this.blancDoc);
+                                            dummy.vectorIdDocuments.Add(documentId);
+                                        }
+                                        else // Если слово встречалось в текущем документе
+                                        {
+                                            Document dummyDoc = dummy.docs[indexDoc]; // Текущий документ для данного слова
+                                            dummyDoc.pos.Add(position - (blancTerm.name.Length)); // Добавление новой позиции для данного слова в текущем документе
+                                            dummyDoc.frenq++; // Увеличение числа вхождений данного слова в текущий документ
+
+                                            dummy.docs[indexDoc] = dummyDoc; // Изменение List с документом данного слова из-за особенностей языка C#
+                                        }
+
+                                        dummy.count++; // Увеличение числа вхождений слова вообще в какой либо документ
+
+                                        terms[index] = dummy;
+
+                                        this.ZeroStruct(); // Обнуление всех вспомогательных структур
+
+                                    }
+                                }
+                            }
+
+                        
                     }
                     position++;
                 }
             }
         }
 
-        public Catalog(string path)
+        public Index(string path)
         {
             string[] files = Directory.GetFiles(path);
-            foreach (string file in files)
+            /*foreach (string file in files)
             {
                 this.DataCollection(file, path); // Сбор данных из текущего файла
-            }
+            }*/
+            Parallel.ForEach(files, file =>
+            {
+                
+                this.DataCollection(file, path);
+                
+            });
         }        
     }
 
-    internal class Program
+    internal class SearchMachine
     {
+        
         static void Main(string[] args)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory.ToString() + "text_documents\\";
-            Catalog catalog = new Catalog(path);
+            Index catalog = new Index(path);
 
             string request = "как and дела or not вас";
 
@@ -219,6 +227,15 @@ namespace search_engine
             List<Term> result = rtk.Request();
 
             RequestVisualization.Visualization(result);
+
+            
+            //PorterStemmer stemmer = new PorterStemmer();
+
+            /*Stemmer stemmer = new Stemmer();
+            string word = "";
+
+            Console.WriteLine(stemmer.Stem(word));*/
+
 
             //RequestToCatalog rtk = new RequestToCatalog(catalog.terms, allDocuments);
 
